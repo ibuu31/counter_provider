@@ -10,24 +10,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //we're wrapping the MaterialApp with Provider and because we've used ChangeNotifier in one class so we need to use ChangeNotifierProvider.
     return ChangeNotifierProvider<Counter>(
       create: (context) => Counter(),
       child: MaterialApp(
-        title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const MyHomePage(),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -38,10 +36,14 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: const Text(
+          'Counter App',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
-      // Consumer
+      // The Consumer widget has a builder function to build the necessary widgets again when there's a change in the object.
       body: Consumer<Counter>(
         builder: (BuildContext context, Counter counter, Widget? child) {
           return Center(
@@ -112,6 +114,7 @@ class PlusOrMinusButton extends StatelessWidget {
   }
 }
 
+// to use the method- notifyListeners() we need to extend the class with ChangeNotifier in which it is being used. notifyListener will be called when we change something in the class, and ChangeNotifier helps the class to Listenable the events that are being changed.
 class Counter extends ChangeNotifier {
   int _counter = 0;
 
